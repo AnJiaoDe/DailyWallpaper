@@ -1,4 +1,4 @@
-package com.cy.dailywallpaper.model;
+package com.cy.dailywallpaper;
 
 /**
  * ************************************************************
@@ -10,6 +10,5 @@ package com.cy.dailywallpaper.model;
  */
 
 public class Constants {
-
 
 }

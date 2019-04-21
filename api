@@ -1,0 +1,38 @@
+1.必应
+http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1
+值得注意的是，接口里的idx=后面的数字为0是今日的壁纸数据，1 2  3  4  5...依次是昨日、前日...   数字是-1是明日的数据。
+n=i,返回i个壁纸，日期前推，最多8条
+https://cn.bing.com+url获取图片
+{
+    "images": [
+        {
+            "startdate": "20190419",
+            "fullstartdate": "201904191600",
+            "enddate": "20190420",
+            "url": "/th?id=OHR.CoveSpires_ZH-CN2680932006_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "urlbase": "/th?id=OHR.CoveSpires_ZH-CN2680932006",
+            "copyright": "西沃德附近基奈峡湾国家公园里的尖顶湾，阿拉斯加 (© Grant Ordelheide/Tandem Stills + Motion)",
+            "copyrightlink": "http://www.bing.com/search?q=%E5%B0%96%E9%A1%B6%E6%B9%BE&form=hpcapt&mkt=zh-cn",
+            "title": "",
+            "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20190419_CoveSpires%22&FORM=HPQUIZ",
+            "wp": true,
+            "hsh": "03b1b0934e5081f938ba3e8d6868ce00",
+            "drk": 1,
+            "top": 1,
+            "bot": 1,
+            "hs": []
+        }
+    ],
+    "tooltips": {
+        "loading": "正在加载...",
+        "previous": "上一个图像",
+        "next": "下一个图像",
+        "walle": "此图片不能下载用作壁纸。",
+        "walls": "下载今日美图。仅限用作桌面壁纸。"
+    }
+}
+https://api.neweb.top/bing.php   -----必应当日壁纸
+
+https://api.neweb.top/bing.php?type=future   ------必应明日壁纸
+
+https://api.neweb.top/bing.php?type=rand   -----近7日随机壁纸

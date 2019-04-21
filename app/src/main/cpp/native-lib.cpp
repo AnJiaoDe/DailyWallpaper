@@ -2,70 +2,65 @@
 #include <string>
 
 using namespace std;
-extern "C"
-jstring Java_com_cy_dailywallpaper_WelcomeActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
-}
-
+//extern "C"
+//jstring Java_com_cy_dailywallpaper_model_JniUtils_stringFromJNI(
+//        JNIEnv *env,
+//        jobject /* this */) {
+//    string hello = "Hello from C++";
+//    return env->NewStringUTF(hello.c_str());
+//}
+//extern "C"
+//jobjectArray Java_com_cy_dailywallpaper_model_JniUtils_getStructArray(JNIEnv *env, jobject jobj) {
+//    jobjectArray infos = NULL;    // jobjectArray 为指针类型
+//    jclass clsDiskInfo = NULL;        // jclass 为指针类型
+//    jobject obj;
+//    jfieldID nameID;
+//    jfieldID serialNoID;
+//    jmethodID consID;
+//    jsize len;
+//    int i;
 //
-//////返回一个字符串数组
+//    clsDiskInfo = env->FindClass("com/cy/dailywallpaper/DiskInfo");//必须完整类路径
+//    len = 5;
+//    infos = env->NewObjectArray(len, clsDiskInfo, NULL);
+//    nameID = env->GetFieldID(clsDiskInfo, "name", "Ljava/lang/String;");
+//    serialNoID = env->GetFieldID(clsDiskInfo, "serialNo", "I");
+//    consID = env->GetMethodID(clsDiskInfo, "<init>", "()V");
+//    for (i = 0; i < len; i++) {
+//        obj = env->NewObject(clsDiskInfo, consID);
+//        env->SetObjectField(obj, nameID, env->NewStringUTF("disk"));
+//        env->SetIntField(obj, serialNoID, i);
+//        env->SetObjectArrayElement(infos, i, obj);
+//    }
+//    return infos;
+//}
+extern "C"
+jobject Java_com_cy_dailywallpaper_JniUtils_getHashMap(JNIEnv *env,jobject jobj) {
+    jclass class_hashmap = env->FindClass("java/util/HashMap");
+    jmethodID hashmap_init = env->GetMethodID(class_hashmap, "<init>",
+                                              "()V");
+    jobject HashMap = env->NewObject(class_hashmap, hashmap_init, "");
+    jmethodID HashMap_put = env->GetMethodID(class_hashmap, "put",
+                                             "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    env->CallObjectMethod(HashMap, HashMap_put,
+                          env->NewStringUTF("bing_today"),
+                          env->NewStringUTF("http://cn.bing.com/HPImageArchive.aspx"));
+    env->CallObjectMethod(HashMap, HashMap_put,
+                          env->NewStringUTF("key2"),
+                          env->NewStringUTF("value2"));
+    return HashMap;
+}
+////返回一个字符串数组
+//extern "C"
 //jobjectArray Java_com_cy_dailywallpaper_model_JniUtils_getApiAddress(JNIEnv *env, jobject) {
 //    jstring str;
 //    jobjectArray jobjArr = NULL;
-//    jsize len = 5;
-//    char *c[] = {"http://cn.bing.com/HPImageArchive.aspx?format=js", "world!", " JNI", " is", " fun"};
+//    char *c[] = {"ty5765a", "5768b", "c787i", "7989d", "\0"};
+//    jsize len = 4;
 //    jobjArr = (env)->NewObjectArray(len, (env)->FindClass("java/lang/String"), 0);
 //    for (int i = 0; i < len; i++) {
 //        str = (env)->NewStringUTF(c[i]);
 //        (env)->SetObjectArrayElement(jobjArr, i, str);
 //    }
 //    return jobjArr;
-//}
-//jobject CppMap2JMap(JNIEnv *env,map) {
-//
-//    jclass jmapclass = env->FindClass("java/util/Map");
-//    jmethodID mid = env->GetMethodID(jmapclass, "<init>", "()V");
-//    jmethodID putmethod = env->GetMethodID(jmapclass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-//    jobject jmap = env->NewObject(jmapclass,mid);
-//    jclass strClass = env->FindClass("java/lang/String");
-//    jmethodID ctorID = env->GetMethodID(strClass, "<init>", "([BLjava/lang/String;)V");
-//    jstring encoding = env->NewStringUTF("utf-8");
-//    std::map<char*,char*>::iterator it;
-//    for(it=cmap.begin();it != cmap.end();it++)
-//    {
-//        char* key=it->first;
-//        jbyteArray keybytes = env->NewByteArray(strlen(key));
-//        env->SetByteArrayRegion(keybytes, 0, strlen(key), (jbyte*)key);
-//        jstring jkey = (jstring)env->NewObject(strClass, ctorID, keybytes, encoding);
-//        char* value =it->second;
-//        jbyteArray valuebytes = env->NewByteArray(strlen(value));
-//        env->SetByteArrayRegion(valuebytes, 0, strlen(value), (jbyte*)value);
-//        jstring jvalue = (jstring)env->NewObject(strClass, ctorID, valuebytes, encoding);
-//        env->CallVoidMethod(jmap,putmethod,jkey,jvalue);
-//    }
-//    return jmap;
-//}
-///**
-// * 工具方法，把java的string类型转化成 c的str
-// */
-//char* Jstring2CStr(JNIEnv* env, jstring jstr) {
-//    char* rtn = NULL;
-//    jclass clsstring = (*env)->FindClass(env, "java/lang/String");
-//    jstring strencode = (*env)->NewStringUTF(env, "GB2312");
-//    jmethodID mid = (*env)->GetMethodID(env, clsstring, "getBytes",
-//                                        "(Ljava/lang/String;)[B");
-//    jbyteArray barr = (jbyteArray) (*env)->CallObjectMethod(env, jstr, mid,
-//                                                            strencode); // String .getByte("GB2312");
-//    jsize alen = (*env)->GetArrayLength(env, barr);
-//    jbyte* ba = (*env)->GetByteArrayElements(env, barr, JNI_FALSE);
-//    if (alen > 0) {
-//        rtn = (char*) malloc(alen + 1); //"\0"
-//        memcpy(rtn, ba, alen);
-//        rtn[alen] = '\0';
-//    }
-//    (*env)->ReleaseByteArrayElements(env, barr, ba, 0); //释放内存
-//    return rtn;
 //}
